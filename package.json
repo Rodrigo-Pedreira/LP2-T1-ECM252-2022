@@ -1,0 +1,28 @@
+{
+  "name": "lp2-t1-ecm252-2022",
+  "version": "1.0.0",
+  "description": "Projeto T1 da disciplina EMC252 - Linguagens de Programacao 2. 4º ano, Instituto Maua de Tecnologia (IMT), 2022.",
+  "main": "index.js",
+  "dependencies": {
+      "axios": "^0.26.1",
+      "cors": "^2.8.5",
+      "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rodrigo-Pedreira/LP2-T1-ECM252-2022.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rodrigo-Pedreira/LP2-T1-ECM252-2022/issues"
+  },
+  "homepage": "https://github.com/Rodrigo-Pedreira/LP2-T1-ECM252-2022#readme"
+}
