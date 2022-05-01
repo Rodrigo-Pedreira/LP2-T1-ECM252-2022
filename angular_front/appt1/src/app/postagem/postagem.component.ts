@@ -1,0 +1,21 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-postagem',
+  templateUrl: './postagem.component.html',
+  styleUrls: ['./postagem.component.css']
+})
+export class PostagemComponent implements OnInit {
+
+  // private postagem : {
+  //   autor : string,
+  //   texto : string;
+  //   datapostagem : Date,
+  //   // avatar
+  // };
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+}
