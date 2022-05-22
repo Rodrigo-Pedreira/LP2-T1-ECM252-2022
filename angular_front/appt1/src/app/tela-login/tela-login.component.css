@@ -1,0 +1,27 @@
+#login-card {
+    margin: auto;
+    margin-top: 12rem;
+    width: max-content;
+    min-width: 20rem;
+    background-color: rgb(252, 252, 252);
+}
+
+#login-card #login-user,
+#login-card #login-password {
+    width: 100%;
+    margin-bottom: 0.4rem;
+}
+
+#button-login {
+    display: block;
+    margin: auto;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+#button-register,
+#button-forgot {
+    display: block;
+    margin: auto;
+    margin-bottom: 0.2rem;
+}
