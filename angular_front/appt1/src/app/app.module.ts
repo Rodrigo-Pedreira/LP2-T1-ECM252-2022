@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule }                         from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AppComponent } from './app.component';
-import { PostagemComponent } from './postagem/postagem.component';
+import { BrowserModule }        from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AppComponent }       from './app.component';
+import { PostagemComponent }  from './postagem/postagem.component';
 import { TelaLoginComponent } from './tela-login/tela-login.component';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule }     from '@angular/material/button';
+import { MatCardModule }       from '@angular/material/card';
+import { MatFormFieldModule }  from '@angular/material/form-field';
+import { MatIconModule }       from '@angular/material/icon';
+import { MatInputModule }      from '@angular/material/input';
 
 
 @NgModule({
@@ -22,14 +23,14 @@ import { MatCardModule } from '@angular/material/card';
   ],
   imports: [
     BrowserModule,
-    NoopAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
     FormsModule,
-    ReactiveFormsModule,
-    MatIconModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    NoopAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
