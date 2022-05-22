@@ -6,7 +6,12 @@
     background-color: rgb(252, 252, 252);
 }
 
-#login-card #login-user,
+#card-label {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#login-card #login-email,
 #login-card #login-password {
     width: 100%;
     margin-bottom: 0.4rem;
