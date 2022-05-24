@@ -4,11 +4,11 @@ import {FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
-  selector: 'app-tela-login',
-  templateUrl: './tela-login.component.html',
-  styleUrls:  ['./tela-login.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls:  ['./login.component.css']
 })
-export class TelaLoginComponent implements OnInit {
+export class LoginComponent implements OnInit {
 
   constructor() { }
 
