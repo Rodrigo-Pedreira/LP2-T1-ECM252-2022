@@ -1,47 +1,114 @@
-/* 
- * Este arquivo e referente ao microservico que lida com as postagens.
- */
+/* Este arquivo e referente ao microservico que lida com as postagens. */
 
-//* TODO: Continuar desenvolvendo.
+/* -------------------------------------------------------------------------- */
+/*                                  Requires                                  */
+/* -------------------------------------------------------------------------- */
 
-import express, { json } from 'express'
-import { post } from 'axios'
+const express = require("express")
+const cors    = require("cors");
+const axios   = require("axios")
+const path    = require('path')
+const c       = require('../constants.js')
 
-/** Alias do metodo express(). Habilitado para usar JSON. */
+/* -------------------------------------------------------------------------- */
+/*                                  Variaveis                                 */
+/* -------------------------------------------------------------------------- */
+
+/** Alias da funcao express. */
 const app = express()
-app.use(json())
 
 /** Lista volatil com todas as postagens. */
-const postagens = {}
+const postagens = [{
+    user: "João",
+    avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
+    date: "01/01/1901",
+    conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod?"
+},
+{
+    user: "Maria",
+    avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
+    date: "02/02/1902",
+    conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod? Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut!"
+},
+{
+    user: "Pedro",
+    avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
+    date: "03/03/1903",
+    conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit.Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod? Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut! Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere."
+}]
 
-/** Posicao de uma postagem na lista e o ID desta postagem. */
-var contador = 0
+// var corsOptions = {
+//     origin: "http://localhost:4200"
+// };
 
-// Retonar pedido GET com a lista de postagens.
-app.get(URL_POSTAGEM, (req, res) => {
+
+/* ---------------------------------- Use ----------------------------------- */
+
+/* Habilita uso de JSON. */
+app.use(express.json())
+
+/* Habilita o Cors */
+app.use(cors())
+// app.use(cors(corsOptions))
+
+// app.use ((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', "*");
+//     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+//     next();
+// });
+
+
+/* ----------------------------- Envio de Files ----------------------------- */
+
+/* Usado para enviar arquivos da pasta 'static'. */
+app.use('/static', express.static(path.join(__dirname, '../static')))
+
+/* -------------------------------------------------------------------------- */
+/*                                    REST                                    */
+/* -------------------------------------------------------------------------- */
+
+/* ----------------------------------- GET ---------------------------------- */
+
+/* Retonar pedido GET com uma postagem especifica. */
+app.get(`${c.URL_POSTAGEM}/:id`, (req, res) => {
+    res.send(postagens[req.params.id])
+})
+
+// Retonar pedido GET com a lista de postagens. */
+app.get(c.URL_POSTAGEM, (req, res) => {
     res.send(postagens)
 })
 
-// Receber uma postagem com POST
-// e salvar na lista volatil de postagens
-// e enviar para o barramento de eventos.
-//* Espera-se que que req.body tenha uma chave postagem.
-app.post(URL_POSTAGEM, async (req, res) => {
-    contador++
-    const { postagem } = req.body
-    postagens[contador] = {contador, postagem}
-    // Postar no barramento de eventos.
-    await post(URL_BASE + ":" + PORTA_BARRAMENTO_EVENTOS + URL_BARRAMENTO_EVENTOS, {
-        tipo: "Postagem",
-        dados: {
-            contador, postagem
-        }
-    })
-    // Retorna o codigo de sucesso e a postagem recebida.
-    res.status(201).send(postagens[contador])
+/* ---------------------------------- POST ---------------------------------- */
+
+/* Receber uma postagem com POST e salvar na lista volatil de postagens e enviar para o barramento de eventos.
+   Espera-se que que req.body tenha uma chave postagem. */
+app.post(`${c.URL_POSTAGEM}/new`, (req, res) => {
+    let newpostagem = {
+        user: req.body.user,
+        // avatarUrl: req.body.avatarUrl,
+        avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`, // TODO Logica para recuperar avatar do usuario;
+        date: req.body.date,
+        conteudo: req.body.conteudo
+    }
+
+    // /* Postar no barramento de eventos. */ // TODO Incorporar com um barramento de eventos;
+    // await axios.post(c.URL_BASE + ":" + c.PORTA_BARRAMENTO_EVENTOS + c.URL_BARRAMENTO_EVENTOS, {
+    //     tipo: "Postagem",
+    //     dados: {
+    //         postagem
+    //     }
+    // })
+
+    /* Retorna o codigo de sucesso e a postagem recebida. */
+    postagens.push(newpostagem)
+    res.status(201).send(newpostagem)
 })
 
-// Habilita o microservico e sua porta de acesso.
-app.listen(PORTA_POSTAGEM, () => {
-    console.log(`Postagem. Porta ${PORTA_POSTAGEM}.`)
+/* --------------------------------- Listen --------------------------------- */
+
+/* Habilita o microservico e sua porta de acesso. */
+app.listen(c.PORTA_POSTAGEM, () => {
+    console.log(`Postagem. Porta ${c.PORTA_POSTAGEM}.`)
 })
