@@ -2,6 +2,7 @@ import { Component, OnInit }                 from '@angular/core';
 import {FormControl, FormGroup, Validators } from '@angular/forms';
 // import { from } from 'rxjs';
 
+import { LoginService } from "src/app/services/login.service"
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import {FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor( private loginService : LoginService ) { }
 
   ngOnInit(): void {
   }
@@ -31,6 +32,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmitLogin(){
-    // console.warn(this.loginForm.value) // Debug rodrigo
+    // console.warn(this.loginForm.value) // Debug Rodrigo
   }
 }
