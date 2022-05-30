@@ -1,6 +1,16 @@
-<h1>Postagem</h1>
+<mat-card class="postagem-card" *ngFor="let element of postagens">
+  <mat-card-header>
+    <div mat-card-avatar class="avatar-header-image" [style.background-image]="avatarHtml(element.avatarUrl)"></div>
+    <mat-card-title>{{element.user}}</mat-card-title>
+    <mat-card-subtitle id="post-date">{{element.date}}</mat-card-subtitle>
+  </mat-card-header>
 
-<p class="postagem-texto">
-  <!-- {{getTexto()}} -->
-  texto da postagem
-</p>
+  <mat-card-content>
+    <p>{{element.conteudo}}</p>
+  </mat-card-content>
+
+  <mat-card-actions class="card-actions">
+    <button mat-button type="button">LIKE</button>
+    <button mat-button type="button">SHARE</button>
+  </mat-card-actions>
+</mat-card>
