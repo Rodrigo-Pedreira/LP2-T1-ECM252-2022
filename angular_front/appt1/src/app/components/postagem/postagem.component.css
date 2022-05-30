@@ -1,3 +1,27 @@
-.postagem-texto{
-    border: 2pt, solid , black;
+.avatar-header-image {
+    /* background-image: url('avatar'); defined INLINE in HTML file to be the user's avatar */
+    background-size: cover;
+  }
+
+  .postagem-card {
+      margin-block-start: 3.5rem;
+      margin-inline-start: 10vw;
+      margin-inline-end: 1.5rem;
+      margin-block-end: 1.5rem;
+      width: auto;
+      max-width: 90ch;
+      min-width: min-content;
+  }
+
+.postagem-card * {
+    min-width: inherit;
+}
+
+#post-date {
+    font-size: smaller;
+}
+
+.postagem-card .card-actions button {
+    margin-inline-start: 0px;
+    margin-inline-end: 8px;
 }

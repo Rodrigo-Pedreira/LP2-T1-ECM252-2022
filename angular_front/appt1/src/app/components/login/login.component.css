@@ -1,9 +1,9 @@
 #login-card {
     margin: auto;
-    margin-top: 12rem;
-    width: max-content;
-    min-width: 20rem;
-    background-color: rgb(252, 252, 252);
+    margin-block-start: 10vh;
+    width: auto;
+    max-width: 20vw;
+    min-width: min-content;
 }
 
 #card-label {
