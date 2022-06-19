@@ -4,11 +4,13 @@
 /*                                  Requires                                  */
 /* -------------------------------------------------------------------------- */
 
-const express = require("express")
-const cors    = require("cors");
-const axios   = require("axios")
-const path    = require('path')
-const c       = require('../constants.js')
+const express  = require("express")
+const cors     = require("cors");
+const axios    = require("axios")
+const path     = require('path')
+const c        = require('../constants.js')
+const Postagem = require('../models/postagem')
+const mongoose = require('mongoose');
 
 /* -------------------------------------------------------------------------- */
 /*                                  Variaveis                                 */
@@ -41,6 +43,16 @@ const postagens = [{
 //     origin: "http://localhost:4200"
 // };
 
+/* -------------------------------------------------------------------------- */
+/*                               Banco de Dados                               */
+/* -------------------------------------------------------------------------- */
+
+// mongoose.connect('sua string de conexão aqui') // TODO: Add conexao. De preferencia com as macros em constatns.  
+// .then(() => {
+//  console.log ("Conexão OK")
+// }).catch(() => {
+//  console.log("Conexão NOK")
+// })
 
 /* ---------------------------------- Use ----------------------------------- */
 
@@ -78,6 +90,9 @@ app.get(`${c.URL_POSTAGEM}/:id`, (req, res) => {
 // Retonar pedido GET com a lista de postagens. */
 app.get(c.URL_POSTAGEM, (req, res) => {
     res.send(postagens)
+    // Postagem.find().then(documents => { // TODO: Enviar no formato certo.
+    //     res.status(200).send(documents)
+    //     })
 })
 
 /* ---------------------------------- POST ---------------------------------- */
@@ -85,13 +100,21 @@ app.get(c.URL_POSTAGEM, (req, res) => {
 /* Receber uma postagem com POST e salvar na lista volatil de postagens e enviar para o barramento de eventos.
    Espera-se que que req.body tenha uma chave postagem. */
 app.post(`${c.URL_POSTAGEM}/new`, (req, res) => {
-    let newpostagem = {
+    let newpostagem2 = {
         user: req.body.user,
         // avatarUrl: req.body.avatarUrl,
         avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`, // TODO Logica para recuperar avatar do usuario;
         date: req.body.date,
         conteudo: req.body.conteudo
     }
+    
+    const newpostagem = new Postagem({
+        user: req.body.user,
+        // avatarUrl: req.body.avatarUrl,
+        avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
+        date: req.body.date,
+        conteudo: req.body.conteudo
+    })
 
     // /* Postar no barramento de eventos. */ // TODO Incorporar com um barramento de eventos;
     // await axios.post(c.URL_BASE + ":" + c.PORTA_BARRAMENTO_EVENTOS + c.URL_BARRAMENTO_EVENTOS, {
@@ -102,8 +125,9 @@ app.post(`${c.URL_POSTAGEM}/new`, (req, res) => {
     // })
 
     /* Retorna o codigo de sucesso e a postagem recebida. */
-    postagens.push(newpostagem)
-    res.status(201).send(newpostagem)
+    postagens.push(newpostagem2)
+    // postagem.save() // TODO: Enviar para o DB.
+    res.status(201).send(newpostagem2)
 })
 
 /* --------------------------------- Listen --------------------------------- */
