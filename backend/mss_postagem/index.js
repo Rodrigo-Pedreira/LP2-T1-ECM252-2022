@@ -20,24 +20,24 @@ const mongoose = require('mongoose');
 const app = express()
 
 /** Lista volatil com todas as postagens. */
-const postagens = [{
-    user: "João",
-    avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
-    date: "01/01/1901",
-    conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod?"
-},
-{
-    user: "Maria",
-    avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
-    date: "02/02/1902",
-    conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod? Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut!"
-},
-{
-    user: "Pedro",
-    avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
-    date: "03/03/1903",
-    conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit.Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod? Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut! Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere."
-}]
+// const postagens = [{
+//     user: "João",
+//     avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
+//     date: "01/01/1901",
+//     conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod?"
+// },
+// {
+//     user: "Maria",
+//     avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
+//     date: "02/02/1902",
+//     conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod? Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut!"
+// },
+// {
+//     user: "Pedro",
+//     avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`,
+//     date: "03/03/1903",
+//     conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit.Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod? Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, consequatur quia? Magni necessitatibus dolorum tempora aut! Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere."
+// }]
 
 // var corsOptions = {
 //     origin: "http://localhost:4200"
@@ -46,13 +46,22 @@ const postagens = [{
 /* -------------------------------------------------------------------------- */
 /*                               Banco de Dados                               */
 /* -------------------------------------------------------------------------- */
+require('dotenv').config();
 
-// mongoose.connect('sua string de conexão aqui') // TODO: Add conexao. De preferencia com as macros em constatns.  
-// .then(() => {
-//  console.log ("Conexão OK")
-// }).catch(() => {
-//  console.log("Conexão NOK")
-// })
+const {
+    DB_USER,
+    DB_PASSWORD,
+    DB_CLUSTER,
+    DB_HOST,
+    DB
+  } = process.env
+
+mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER}.${DB_HOST}.mongodb.net/${DB}?retryWrites=true&w=majority`) // TODO: Add conexao. De preferencia com as macros em constatns.  
+.then(() => {
+ console.log ("Conexão OK")
+}).catch(() => {
+ console.log("Conexão NOK")
+})
 
 /* ---------------------------------- Use ----------------------------------- */
 
@@ -84,15 +93,23 @@ app.use('/static', express.static(path.join(__dirname, '../static')))
 
 /* Retonar pedido GET com uma postagem especifica. */
 app.get(`${c.URL_POSTAGEM}/:id`, (req, res) => {
-    res.send(postagens[req.params.id])
+    // res.send(postagens[req.params.id])
+
+    Postagem.find().then(documents => { // TODO: Enviar no formato certo.
+        res.status(200).send(documents)
+        })
+
 })
 
 // Retonar pedido GET com a lista de postagens. */
 app.get(c.URL_POSTAGEM, (req, res) => {
-    res.send(postagens)
-    // Postagem.find().then(documents => { // TODO: Enviar no formato certo.
-    //     res.status(200).send(documents)
-    //     })
+    // res.send(postagens)
+    Postagem.find().then(documents => { // TODO: Enviar no formato certo.
+        // console.log(documents)
+        res.status(200).send(documents)
+        })
+
+
 })
 
 /* ---------------------------------- POST ---------------------------------- */
@@ -100,13 +117,13 @@ app.get(c.URL_POSTAGEM, (req, res) => {
 /* Receber uma postagem com POST e salvar na lista volatil de postagens e enviar para o barramento de eventos.
    Espera-se que que req.body tenha uma chave postagem. */
 app.post(`${c.URL_POSTAGEM}/new`, (req, res) => {
-    let newpostagem2 = {
-        user: req.body.user,
-        // avatarUrl: req.body.avatarUrl,
-        avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`, // TODO Logica para recuperar avatar do usuario;
-        date: req.body.date,
-        conteudo: req.body.conteudo
-    }
+    // let newpostagem2 = {
+    //     user: req.body.user,
+    //     // avatarUrl: req.body.avatarUrl,
+    //     avatarUrl: `${c.URL_BASE}:${c.PORTA_POSTAGEM}/static/default-profile-icon.jpg`, // TODO Logica para recuperar avatar do usuario;
+    //     date: req.body.date,
+    //     conteudo: req.body.conteudo
+    // }
     
     const newpostagem = new Postagem({
         user: req.body.user,
@@ -125,9 +142,10 @@ app.post(`${c.URL_POSTAGEM}/new`, (req, res) => {
     // })
 
     /* Retorna o codigo de sucesso e a postagem recebida. */
-    postagens.push(newpostagem2)
-    // postagem.save() // TODO: Enviar para o DB.
-    res.status(201).send(newpostagem2)
+    // postagens.push(newpostagem2)
+    newpostagem.save() // TODO: Enviar para o DB.
+    // console.log(newpostagem);
+    res.status(201).json({mensagem: "Post inserido."})
 })
 
 /* --------------------------------- Listen --------------------------------- */
