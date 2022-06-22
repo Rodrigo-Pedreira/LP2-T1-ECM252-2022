@@ -56,10 +56,11 @@ const {
     DB
   } = process.env
 
-mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER}.${DB_HOST}.mongodb.net/${DB}?retryWrites=true&w=majority`) // TODO: Add conexao. De preferencia com as macros em constatns.  
+mongoose.connect(`mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_CLUSTER}.${DB_HOST}.mongodb.net/${DB}?retryWrites=true&w=majority`)
 .then(() => {
  console.log ("Conexão OK")
-}).catch(() => {
+})
+.catch(() => {
  console.log("Conexão NOK")
 })
 
@@ -95,7 +96,7 @@ app.use('/static', express.static(path.join(__dirname, '../static')))
 app.get(`${c.URL_POSTAGEM}/:id`, (req, res) => {
     // res.send(postagens[req.params.id])
 
-    Postagem.find().then(documents => { // TODO: Enviar no formato certo.
+    Postagem.find().then(documents => {
         res.status(200).send(documents)
         })
 
@@ -104,7 +105,7 @@ app.get(`${c.URL_POSTAGEM}/:id`, (req, res) => {
 // Retonar pedido GET com a lista de postagens. */
 app.get(c.URL_POSTAGEM, (req, res) => {
     // res.send(postagens)
-    Postagem.find().then(documents => { // TODO: Enviar no formato certo.
+    Postagem.find().then(documents => {
         // console.log(documents)
         res.status(200).send(documents)
         })
@@ -143,7 +144,7 @@ app.post(`${c.URL_POSTAGEM}/new`, (req, res) => {
 
     /* Retorna o codigo de sucesso e a postagem recebida. */
     // postagens.push(newpostagem2)
-    newpostagem.save() // TODO: Enviar para o DB.
+    newpostagem.save()
     // console.log(newpostagem);
     res.status(201).json({mensagem: "Post inserido."})
 })
