@@ -10,3 +10,8 @@ Projeto T1 da disciplina EMC252 - Linguagens de Programacao 2. 4º ano, Institut
 Este aplicativo visa unir pessoas que se vivenciaram os horrores de uma guerra e criar um espaço em que estas pessoas possam compartilhar suas historias e prestar homenagens.
 
 A ideia é criar uma especie de memorial online e fomentar um sentimento de comunidade para ajudar estas pessoas a lidar com os sentimentos de perda e luto que inevitavelmente acompanham qualquer guerra.
+
+## Video:
+Clique [aqui](https://youtu.be/Bm7ktKuIiC4 "Video de apresentação do projeto") ou na imagem para assistir ao video de apresentação do projeto.
+
+[![Imagem da thumbnail do video, ao clicar redireciona para o video](https://img.youtube.com/vi/Bm7ktKuIiC4/0.jpg)](https://youtu.be/Bm7ktKuIiC4 "Video de apresentação do projeto")
