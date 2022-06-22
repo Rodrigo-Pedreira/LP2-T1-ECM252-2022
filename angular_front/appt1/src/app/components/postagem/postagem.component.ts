@@ -13,13 +13,13 @@ export class PostagemComponent implements OnInit {
 
   /* -------------------------------- Variaveis ------------------------------- */
 
-  // postagemExemplo : Postagem = {
-  //   id: '001',
-  //   user: "Exemplo Post",
-  //   avatarUrl: "Por enquanto nao importa, sempre sera o padrao",
-  //   date: "11/11/2000",
-  //   conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni necessitatibus dolorum tempora aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere. Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod? Adipisci, consequatur quia? Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum!"
-  // }
+  postagemExemplo : Postagem = {
+    id: '001',
+    user: "Exemplo Post",
+    avatarUrl: "Por enquanto nao importa, sempre sera o padrao",
+    date: "11/11/2000",
+    conteudo: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni necessitatibus dolorum tempora aut! Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda quo aliquid nemo, alias eos ut, soluta excepturi dolorum dolores, culpa mollitia facere. Dignissimos labore hic nostrum repudiandae debitis, voluptatum quod? Adipisci, consequatur quia? Atque officia veritatis tempore, ea consequuntur, beatae iste itaque saepe corrupti id ullam dolorum!"
+  }
 
   postagens : Postagem[] = []// antes [{}]
 
@@ -28,7 +28,7 @@ export class PostagemComponent implements OnInit {
   constructor(private postagemService : PostagemService) { }
 
   ngOnInit(): void {
-    // this.createPostagem(this.postagemExemplo) // As vezes demora mais para executar e nao retorna antes da pagina renderizar, so atualizar conferir a insercao
+    // this.createPostagem(this.postagemExemplo) // As vezes demora mais para executar e nao retorna antes da pagina renderizar, so atualizar conferir a insercao. Se estiver comentado e para evitar floodar o db.
     this.retriveAllPostagem()
     this.retrivePostagem(0)
   }
